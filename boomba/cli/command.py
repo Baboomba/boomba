@@ -123,7 +123,7 @@ class CommandHandler(CommandRegistor):
             warnings.warn(CHECK['start'])
             return
         
-        connector = Connector(conf.base_db)
+        connector = Connector(conf.base_db, echo=True)
         
         ins = inspect(connector.engine)
         tables = ins.get_table_names()
@@ -131,6 +131,7 @@ class CommandHandler(CommandRegistor):
             warnings.warn(CHECK['table_exist'].format(tables))
         
         Base.metadata.create_all(connector.engine)
+        print(MESSAGE['initdb'])
     
     def run_command(self) -> None:
         print(MESSAGE['initial'])

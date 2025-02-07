@@ -1,0 +1,19 @@
+from boomba.core.etl import FSLoader, DBLoader
+
+
+# Follow the example below.
+# Use the classes you defined in transformer.py for the transformer.
+# If the 'collection' attribute is not specified, the class name will be converted to snake_case by default.
+# 'collection' is similar to a table name in a database.
+# Loaded files are distinguished by pipeline name + collection + file name (e.g., date).
+# The default value for 'file_name' is based on the loading time in the format YYYYMMDD_HHmm.
+# It is recommended to use the default file_name unless there's a special case.
+# Date-based file names make querying much easier.
+# Required: [transformer]
+# Optional: [schema, collection, file_name]
+
+class MyLoader(FSLoader):
+    transformer = MyTransformer
+    schema = MySchema
+    cllection = 'my_data'
+    file_name = 'my_file'

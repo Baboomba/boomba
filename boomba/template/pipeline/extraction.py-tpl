@@ -1,0 +1,17 @@
+from boomba.core.etl import DBExtractor, APIExtractor
+
+# Follow the example below.
+# 'db_name' refers to the database set in settings. You can choose any database.
+# Required: [db_name, query]
+# Optional: [query_params, schema]
+# Use the classe defined in schema.py for the schema.
+
+class Sales(DBExtractor):
+    db_name = 'mydb'
+    query = '''
+    SELECT *
+    FROM sales
+    WHERE price = :price
+    '''
+    query_params = {'price': 199}
+    schema = MySchema

@@ -1,0 +1,14 @@
+import polars as pl
+from boomba.core.etl import Transformer
+
+
+class MyTransformer(Transformer):
+    
+    extractor = [Sales, User]
+    
+    def process_data(self) -> pl.DataFrame:
+        # this method must be implemented.
+        sales = self.data['sales']
+        user = self.data['user']
+        data = sales.join(user, on='id', how='inner')
+        return data

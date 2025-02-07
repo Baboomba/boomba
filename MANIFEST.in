@@ -1,0 +1,6 @@
+include LICENSE
+include README.md
+recursive-include boomba *
+recursive-include tests *
+prune dist
+prune build

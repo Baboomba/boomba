@@ -1,0 +1,58 @@
+# This configuration file has temporary values set for example purposes.
+# Please modify the contents before use.
+
+DEBUG_MODE = True
+
+
+# The base date format for the attributes, start_date, and end_date of Loader class
+JOB_DATE_FORMAT = 'YYYYMMDD'
+FILE_DATE_FORMAT = 'YYYYMMDD_HHmmss'
+
+DATABASE = {
+    'boomba': {
+        'drivername': 'sqlite',
+        'username': None,
+        'password': None,
+        'host': None,
+        'port': None,
+        'database': 'boomba.db',
+        'query': {}
+    },
+    'source1': {
+        'drivername': 'mysql',
+        'username': 'your_name',
+        'password': 'your_password',
+        'host': 'localhost',
+        'port': '3306',
+        'database': 'your_database',
+        'query': {'charset': 'utf8mb4'}
+    },
+    'source2': {
+        'drivername': 'mssql',
+        'username': 'your_name',
+        'password': 'your_password',
+        'host': 'localhost',
+        'port': '1403',
+        'database': 'your_database',
+        'query': {'driver': 'ODBC Driver 17 for SQL Server'}
+    },
+}
+
+BASE_DB = 'boomba' # This database is used to manage the metadata, not for extraction.
+
+FILE_SYSTEM = {
+    'myfs': {
+        'fs_type': 'local', # options : local, s3
+        'allow_overwrite': True
+    },
+    'myfs2': {
+        'fs_type': 's3',
+        'allow_overwrite': True,
+        'access_id': '',
+        'access_key': '',
+        'region': '',
+        'bucket': ''
+    }
+}
+
+BASE_FS = 'myfs'  # This file system is used to load result.

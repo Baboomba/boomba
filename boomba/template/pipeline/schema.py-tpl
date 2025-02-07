@@ -1,0 +1,9 @@
+from boomba.core.dtypes import Dtype
+from boomba.core.schema import Schema
+
+
+# Example usage provided below.
+class MySchema(Schema):
+    id = Dtype.Int16()
+    product = Dtype.String()
+    price = Dtype.Decimal(11, 2)

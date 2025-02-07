@@ -8,13 +8,14 @@ from boomba.cli.description import (
     HEADER,
     HELP,
     MESSAGE,
-    CHECK
+    CHECK,
+    ERROR
 )
 from boomba.core.config import Config
 from boomba.core.constants import DATA_DIR
 from boomba.core.db import Connector
 from boomba.core.metadata import Base
-from boomba.core.schedule import Job
+from boomba.core.schedule import Job, _register_jobs
 from boomba.exception.exc import (
     NonEmptyDirectoryError,
     DatabaseConfigurationError,
@@ -34,8 +35,8 @@ class CommandRegistor(BaseCommand):
     run: str = 'run'
     createpipe: str = 'createpipe'
     name: str = 'name'
-    list_: str = '--list'
     initdb: str = 'initdb'
+    test: str = 'test'
     
     # valid options
     _list_default = 'all'
@@ -45,7 +46,7 @@ class CommandRegistor(BaseCommand):
         self.add_run()
         self.add_createpipe()
         self.add_initdb()
-        # self.add_list()
+        self.add_test()
     
     def add_startproject(self) -> None:
         self._subparser.add_parser(
@@ -75,15 +76,15 @@ class CommandRegistor(BaseCommand):
             help=self.name
         )
     
-    def add_list(self) -> None:
-        ...
-        # self._parser.add_argument(
-        #     self.list_,
-        #     nargs='?',
-        #     const=self._list_default,
-        #     type=str,
-        #     help=self.list_
-        # )
+    def add_test(self) -> None:
+        self._subparser.add_parser(
+            self.test,
+            help=HELP[self.test]
+        ).add_argument(
+            self.name,
+            type=str,
+            help=self.name
+        )
 
 
 class CommandHandler(CommandRegistor):
@@ -104,11 +105,9 @@ class CommandHandler(CommandRegistor):
             self.startproject_command()
         elif command == self.initdb:
             self.initdb_command()
+        elif command == self.test:
+            self.test_command()
         else:
-            # list_args = self.get_option(self.list_)
-            # if list_args is not None:
-            #     self.list_command(list_args)
-            # else:
             raise EmptyArgumentError()
     
     def startproject_command(self) -> None:
@@ -158,7 +157,18 @@ class CommandHandler(CommandRegistor):
         job.run()
     
     def createpipe_command(self) -> None:
-        self.generator.create_pipeline(self.args.name)
+        self.generator.create_pipeline(self._args.name)
     
-    def list_command(self, list_args) -> None:
-        ...
+    def test_command(self) -> None:
+        _register_jobs()
+        job = Job()
+        for j in job.job_list:
+            if j.name == self._args.name:
+                print(MESSAGE['start_test'].format(j.name))
+                try:
+                    j.loader()
+                    print(MESSAGE['end_test'])
+                    return
+                except RuntimeError as e:
+                    raise print(e)
+        print(ERROR['invalid_job_name'].format(self._args.name))

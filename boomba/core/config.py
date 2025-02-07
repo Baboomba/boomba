@@ -1,6 +1,5 @@
 from typing import Dict, Any
 from pathlib import Path
-import warnings
 from boomba.core.constants import CONF_PATH, MOCK_CONFIG
             
 
@@ -18,10 +17,6 @@ class Config:
     
     def _load(self) -> Dict[str, Any]:
         if not Path(CONF_PATH).exists():
-            warnings.warn(
-                "There is no 'settings.py'. It is substituted "
-                "by a temporary configuration"
-            )
             return self._temp_config()
                 
         with open(CONF_PATH) as f:

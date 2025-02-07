@@ -247,7 +247,7 @@ class Transformer:
         try:
             for cls in self.extractor:
                 inst = cls()
-                data_map[inst.__class__.__name__.lower()] = inst.data
+                data_map[inst.__class__.__name__] = inst.data
         except Exception as e:
             raise RuntimeError(str(e))
         

@@ -9,6 +9,7 @@ from typing import List, Optional, Deque, Dict, Tuple
 from boomba.core.config import Config, Conf
 from boomba.core.constants import LOOP_INTERVAL, PIPELINE_DIR
 from boomba.core.etl import Loader
+from boomba.core.log import _Logger
 from boomba.core.metadata import MetaDataManager
 from boomba.util.parse import parse_date
 
@@ -16,7 +17,7 @@ from boomba.util.parse import parse_date
 __all__ = ['Job', 'register']
 
 _metadata = MetaDataManager()
-
+_logger = _Logger()
 
 class WeekDay(Enum):
     mon = 0
@@ -606,6 +607,7 @@ class Job(metaclass=JobMeta):
                     self._metadata.save_queue(job_queue) # renew the table of queue
                     
                 except Exception as e:
+                    _logger.error(e)
                     print(f"[ERROR] {e}")
                 
 

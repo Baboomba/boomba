@@ -56,6 +56,8 @@ MESSAGE: Dict[str, str] = {
     
     'startproject': 'Project creation is complete.',
 
+    'initdb': 'Default database has been initialized.',
+
     'start_test': "Start testing the job '{}'...",
     'end_test': "Completed testing."
 }

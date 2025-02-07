@@ -42,11 +42,7 @@ HELP: Dict[str, str] = {
     
     'name': 'Pipeline name to create',
     
-    '--list': (
-        "List the registered queue (if no string argument is provided,\n"
-        "all jobs will be displayed; if an argument is provided,\n"
-        "only that job will be shown)"
-    ),
+    'test': 'Execute a specific pipeline directly (for development purposes)'
 }
 
 MESSAGE: Dict[str, str] = {
@@ -56,7 +52,10 @@ MESSAGE: Dict[str, str] = {
         "=============================================\n"
         "Initializing Boomba framework...\n"
         f"Python version: {PYTHON_VERSION}\n"
-    ),    
+    ),
+    
+    'start_test': "Start testing the job '{}'...",
+    'end_test': "Completed testing."
 }
 
 CHECK: Dict[str, str] = {
@@ -75,4 +74,5 @@ ERROR: Dict[str, str] = {
         "No arguments were provided. Please refer to the help.\n"
         " $ boomba --help"
     ),
+    'invalid_job_name': "Invalid job name. Ther is no such job '{}'."
 }

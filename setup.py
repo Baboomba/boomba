@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="boomba",
-    version="0.1.0b1",
+    version="0.1.0b3",
     packages=find_packages(),
     install_requires=['polars', 'pyarrow', 'SQLAlchemy'],
     entry_points={

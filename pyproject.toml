@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "boomba"
-version = "0.1.0b2"
+version = "0.1.0b3"
 description = "Light and Fast ETL Framework"
 readme = "README.md"
 license = { file = "LICENSE.txt" }

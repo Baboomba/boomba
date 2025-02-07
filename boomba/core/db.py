@@ -7,6 +7,7 @@ from sqlalchemy.engine.url import URL
 from sqlalchemy.exc import SQLAlchemyError
 
 from boomba.core.config import Conf, Config
+from boomba.exception.exc import DBConnectionError
 
 
 __all__ = ['DBManager']
@@ -32,13 +33,19 @@ class Connector:
         self.engine = self._create_engine()
     
     def _get_conn_str(self) -> str:
-        fields = self._conf.database[self._db_name]
-        return URL.create(**fields)
+        try:
+            fields = self._conf.database[self._db_name]
+            return URL.create(**fields)
+        except:
+            raise DBConnectionError(self)
 
     def _create_engine(self) -> Engine:
         connection_string = self._get_conn_str()
-        engine = create_engine(connection_string)
-        return engine
+        try:
+            engine = create_engine(connection_string)
+            return engine
+        except RuntimeError as e:
+            raise DBConnectionError(self)
 
 
 class DBManager(Connector):

@@ -606,7 +606,7 @@ class Job(metaclass=JobMeta):
                     self._metadata.save_queue(job_queue) # renew the table of queue
                     
                 except Exception as e:
-                    pass
+                    print(f"[ERROR] {e}")
                 
 
 def register(

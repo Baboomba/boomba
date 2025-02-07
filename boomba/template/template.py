@@ -3,12 +3,12 @@ from typing import Dict
 from pathlib import Path
 
 from boomba.core.constants import (
-                            DATA_DIR,
-                            LOG_DIR,
-                            CONF_DIR,
-                            PIPELINE_DIR,
-                            TPL_DIR
-                        )
+    DATA_DIR,
+    LOG_DIR,
+    CONF_DIR,
+    PIPELINE_DIR,
+    TPL_DIR
+)
 
 
 class Generator:

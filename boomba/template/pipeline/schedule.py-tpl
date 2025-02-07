@@ -15,6 +15,6 @@ register(
     loader=MySecondLoader,
     name='my_second_job',
     minute=0,
-    hour='1, 2, 3'
+    hour='1, 2, 3',
     weekday='mon'
 )

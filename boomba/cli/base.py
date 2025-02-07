@@ -22,7 +22,7 @@ class BaseCommand:
         self._create_parser()
         self._create_subparser()
         self.add_all()
-        self.args = self.parse()
+        self._args = self.parse()
     
     def _create_parser(self) -> None:
         self._parser = ArgumentParser(
@@ -59,14 +59,14 @@ class BaseCommand:
         return self._parser.parse_args()
 
     def get_command(self) -> str:
-        if self.args is None:
+        if self._args is None:
             print(ERROR['empty_args'])
-        return getattr(self.args, self.command, None)
+        return getattr(self._args, self.command, None)
     
     def get_option(self, key: str) -> str:
-        if self.args is None:
+        if self._args is None:
             print(ERROR['empty_args'])
-        return getattr(self.args, key.replace('-', ''), None)
+        return getattr(self._args, key.replace('-', ''), None)
     
     def help(self):
         self._parser.print_help()

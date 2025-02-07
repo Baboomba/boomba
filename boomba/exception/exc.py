@@ -66,3 +66,5 @@ class UndefinedMethodError(BaseException):
 class UndefinedAttributeError(BaseException):
     default_msg = "Missing required attribute: "
     
+class LogDirectoryError(BaseException):
+    default_msg = "Not allowed to use 'system'"

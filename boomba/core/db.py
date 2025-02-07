@@ -45,7 +45,7 @@ class Connector:
             engine = create_engine(connection_string)
             return engine
         except RuntimeError as e:
-            raise DBConnectionError(self)
+            raise DBConnectionError(self, e)
 
 
 class DBManager(Connector):

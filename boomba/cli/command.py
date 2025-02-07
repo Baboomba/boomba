@@ -115,6 +115,7 @@ class CommandHandler(CommandRegistor):
             raise NonEmptyDirectoryError()
         
         self.generator.init_directories()
+        print(MESSAGE['startproject'])
     
     def initdb_command(self) -> None:
         conf = Config()

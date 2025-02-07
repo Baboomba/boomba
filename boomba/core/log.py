@@ -1,18 +1,22 @@
 from datetime import datetime
 import logging
+import logging.config as config
 from typing import Dict, Any
 
 from boomba.core.config import Conf
 from boomba.core.constants import LOG_DIR, LOG_CONFIG
+from boomba.exception.exc import LogDirectoryError
 
 
+_system_log_directory_name = 'system'
 
-class Logger:
+
+class _Logger:
     _logger: logging.Logger
     log_conf: Dict[str, Any] = LOG_CONFIG
     
-    def __init__(self, directory: str='system') -> None:
-        self._directory = directory
+    def __init__(self) -> None:
+        self._directory = _system_log_directory_name
         self._logger = self._configure_logger()
 
     def _set_file_path(self) -> None:
@@ -30,7 +34,7 @@ class Logger:
         self._set_file_path()
         if not Conf.debug_mode:
             self._remove_console_handler()
-        logging.config.dictConfig(self.log_conf)
+        config.dictConfig(self.log_conf)
         return logging.getLogger()
         
     @property
@@ -51,3 +55,12 @@ class Logger:
     
     def critical(self, msg: str) -> None:
         self._logger.critical(msg)
+
+
+class Logger(_Logger):
+
+    def __init__(self, directory: str):
+        if directory == 'system':
+            raise LogDirectoryError(self)
+        self._directory = directory
+        self._logger = self._configure_logger()

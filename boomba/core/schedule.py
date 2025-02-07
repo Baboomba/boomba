@@ -17,7 +17,7 @@ from boomba.util.parse import parse_date
 __all__ = ['Job', 'register']
 
 _metadata = MetaDataManager()
-_logger = _Logger()
+
 
 class WeekDay(Enum):
     mon = 0
@@ -397,6 +397,7 @@ class JobMeta(type):
         
 
 class Job(metaclass=JobMeta):
+    _logger: _Logger
 
     def __init__(
         self,
@@ -408,6 +409,7 @@ class Job(metaclass=JobMeta):
         self._schedule = schedule or Schedule
         self.job_list: List[ETLJob] = []
         self._metadata = metadata
+        self._logger = _Logger()
     
     def __str__(self) -> str:
         return f"Job with {len(self.job_list)} jobs"
@@ -607,7 +609,7 @@ class Job(metaclass=JobMeta):
                     self._metadata.save_queue(job_queue) # renew the table of queue
                     
                 except Exception as e:
-                    _logger.error(e)
+                    self._logger.error(e)
                     print(f"[ERROR] {e}")
                 
 

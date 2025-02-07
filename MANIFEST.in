@@ -4,3 +4,4 @@ recursive-include boomba *
 recursive-include tests *
 prune dist
 prune build
+global-exclude __pycache__ *.pyc

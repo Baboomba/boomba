@@ -54,6 +54,8 @@ MESSAGE: Dict[str, str] = {
         f"Python version: {PYTHON_VERSION}\n"
     ),
     
+    'startproject': 'Project creation is complete.',
+
     'start_test': "Start testing the job '{}'...",
     'end_test': "Completed testing."
 }

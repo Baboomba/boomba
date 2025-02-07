@@ -12,4 +12,9 @@ setup(
     },
     author="SungEun An",
     author_email="bach0918@gmail.com",
+    description='Light and Fast ETL Framework',
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
+    url='https://github.com/Baboomba/boomba',
+    python_requires='>=3.12'
 )

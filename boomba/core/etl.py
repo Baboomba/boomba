@@ -440,7 +440,7 @@ class FSLoader(Loader):
     def _set_path(self) -> str:
         if not hasattr(self, 'file_name'):
             format = to_date_format(self._conf.file_date_format)
-            self.file_name = {datetime.now().strftime(format)}
+            self.file_name = datetime.now().strftime(format)
         
         self.file_name = f'{self.file_name}.{BASE_DATA_FORMAT}'
         

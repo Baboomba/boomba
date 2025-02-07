@@ -27,10 +27,10 @@ class Connector:
         section (str): The name of the configuration section to load.
     """
 
-    def __init__(self, db_name: str, conf: Config=Conf) -> None:
+    def __init__(self, db_name: str, conf: Config=Conf, **kwagrs) -> None:
         self._db_name = db_name
         self._conf = conf
-        self.engine = self._create_engine()
+        self.engine = self._create_engine(**kwagrs)
     
     def _get_conn_str(self) -> str:
         try:
@@ -39,10 +39,10 @@ class Connector:
         except:
             raise DBConnectionError(self)
 
-    def _create_engine(self) -> Engine:
+    def _create_engine(self, **kwagrs) -> Engine:
         connection_string = self._get_conn_str()
         try:
-            engine = create_engine(connection_string)
+            engine = create_engine(connection_string, **kwagrs)
             return engine
         except RuntimeError as e:
             raise DBConnectionError(self, e)

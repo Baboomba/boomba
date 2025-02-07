@@ -68,3 +68,6 @@ class UndefinedAttributeError(BaseException):
     
 class LogDirectoryError(BaseException):
     default_msg = "Not allowed to use 'system'"
+
+class DBConnectionError(BaseException):
+    default_msg = "Invaild database configuration. "

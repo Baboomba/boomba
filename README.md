@@ -32,6 +32,7 @@ $ ls
 Now, open settings.py in the config directory. You need to configure the basic settings for the project here. There aren't many settings to configure, so take your time reading through the items below and adjust them according to your situation.
 
 [__BRIEF__]
+
 A. *DEBUG_MODE*
 - Description: Determines whether debug mode is enabled
 - Values: True (outputs all messages) / False (logs only error messages)
@@ -69,6 +70,7 @@ G. *BASE_FS*
 - Example: myfs
 
 [__DETAIL__]
+
 - *DEBUG_MODE*
     - Can be set to a boolean value (True, False). When set to True, all log levels are displayed on the console, and messages at the error level or above are recorded in the log file. When set to False, only messages at the error level or higher are saved in the log file, and no console output is generated.
 
@@ -210,7 +212,7 @@ The only attribute that needs to be defined here is extractor. Simply specify th
 
 The data extracted by the defined Extractor classes is stored in the data attribute. The data attribute is of type __dict[str, pl.DataFrame]__, where the key is the name of your Extractor class. As shown in the example, you can access the data with expressions like self.data['Sales'].
 
-A critical point to note is that, unlike previous tasks where only attributes were declared, this class requires you to implement the process_data method. In the example above, two tables were simply joined, and the result was returned as a Polars DataFrame.
+A critical point to note is that, unlike previous tasks where only attributes were declared, this class requires you to implement the __process_data method__. In the example above, two tables were simply joined, and the result was returned as a Polars DataFrame.
 
 
 #### 4. __Load__

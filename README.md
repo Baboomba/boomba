@@ -36,22 +36,18 @@ Now, open settings.py in the config directory. You need to configure the basic s
 A. *DEBUG_MODE*
 - Description: Determines whether debug mode is enabled
 - Values: True (outputs all messages) / False (logs only error messages)
-- Default: False
 
 B. *JOB_DATE_FORMAT*
 - Description: Date format for scheduling start and end dates
 - Format: YYYY-MM-DD, YYYY MM DD, YYYY_MM_DD (Allowed delimiters: -, _, space)
-- Default: YYYY-MM-DD
 
 C. *FILE_DATE_FORMAT*
 - Description: Date format for file storage during ETL operations
 - Format: Same as JOB_DATE_FORMAT
-- Default: YYYY-MM-DD HH-mm-ss
 
 D. *DATABASE*
 - Description: Database configuration
 - Values: Differentiates between Boomba system DB and extraction/loading DB
-- Default: sqlite
 
 E. *BASE_DB*
 - Description: Key for the primary database
@@ -63,7 +59,6 @@ F. *FILE_SYSTEM*
 - Additional Fields:
 - fs_type: File system type
 - allow_overwrite: Allow file overwrite (True/False)
-- Default: Local storage
 
 G. *BASE_FS*
 - Description: Key for the primary file system
@@ -245,6 +240,7 @@ class SecondLoader(FSLoader):
 
 class ThirdLoader(DBLoader):
     db_name = 'mydb'
+    transformer = MyTransformer
     table_name = 'my_table'
     schema = <YourSchema>
 ```
@@ -275,6 +271,7 @@ C. ThirdLoader
 This example stores data in a database. You only need to specify the target database and table for loading.
 [Additional Attribute]
 - db_name (required): One of the databases defined in the configuration file
+- transformer (required): Your Transformer Class
 - table_name (required): Table name for loading
 - schema (optional): Your Schema class
 

@@ -40,8 +40,10 @@ from boomba.util.parse import to_snake_case, to_date_format
 
 __all__ = [
     'DBExtractor',
+    'APIExtractor'
     'Transformer',
-    'Loader'
+    'FSLoader',
+    'DBLoader'
 ]
 
 

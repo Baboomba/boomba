@@ -8,7 +8,7 @@ class MyTransformer(Transformer):
     
     def process_data(self) -> pl.DataFrame:
         # this method must be implemented.
-        sales = self.data['sales']
-        user = self.data['user']
+        sales = self.data['Sales']
+        user = self.data['User']
         data = sales.join(user, on='id', how='inner')
         return data

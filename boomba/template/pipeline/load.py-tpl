@@ -9,10 +9,11 @@ from boomba.core.etl import FSLoader, DBLoader
 # The default value for 'file_name' is based on the loading time in the format YYYYMMDD_HHmm.
 # It is recommended to use the default file_name unless there's a special case.
 # Date-based file names make querying much easier.
-# Required: [transformer]
-# Optional: [schema, collection, file_name]
+# Required: [fs_name, transformer]
+# Optional: [schema, collection, file_name, bucket]
 
 class MyLoader(FSLoader):
+    fs_name = 'myfs'
     transformer = MyTransformer
     schema = MySchema
     cllection = 'my_data'

@@ -138,7 +138,7 @@ class FileExtractor(Extractor):
 class APIExtractor(Extractor):
     url: str
     method: str
-    payload: str
+    payload: Dict[str, str]
     
     def _check_attr(self) -> None:
         url = 'url'

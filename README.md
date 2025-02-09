@@ -336,13 +336,43 @@ Thank you for reading this tutorial! I hope Boomba helps you manage your ETL tas
 #### 7. __Job Status__
 To check information related to currently running tasks, connect to the BASE_DB specified in your configuration file.
 
-Refer to the following five tables for the necessary information. The structure and ERD for these tables will be updated later.
+Refer to the following five tables for the necessary information.
 
-- job_info: Information about currently registered jobs
-- schedule_info: Logs of both scheduled and executed tasks
-- data_directory: Information about the directories where data is stored
-- data_path: Details about all stored data
-- queue_info: List of the current task queue
+- job_info: Details of registered jobs
+    - job_name [unique]: Name of the job
+    - registered_at: Job registration date
+    - start_date: Scheduled job start date
+    - end_date: Expected job end date
+    - cron_expression: Cron expression set during job registration
+
+- schedule_info: Logs for scheduled and executed tasks
+    - job_id: Corresponding job_info ID
+    - scheduled_at: Scheduled execution time
+    - executed_at: Task completion time
+    - is_completed: Task completion status
+    - path_id: Corresponding data_path ID for stored task results
+    - data_directory: Information about directories for data storage
+
+- pipe_name: Name of the pipeline
+    - collection: Collection name
+    - created_at: Directory creation date
+    - job_id: Related job_info ID
+    - data_path: Metadata about stored data files
+
+- dir_id: Related data_directory ID
+    - file_name: File name
+    - file_type: File format
+    - update_count: Number of updates
+    - created_at: Creation date
+    - updated_at: Last update date
+    - queue_info: Current task queue information
+
+- queue_no: Queue order
+    - job_name: Associated job name
+    - scheduled_at: Task scheduled time
+
+Refer to the ERD of the metadata tables below
+![Untitled](https://github.com/user-attachments/assets/00ceb495-c4b7-4122-a3c5-9eca34dd03c5)
 
 
 #### License:

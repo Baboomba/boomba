@@ -48,13 +48,6 @@ project:.
 │  └─settings.py
 ├─data
 ├─log
-└─pipeline
-    └─first_pipe
-        └─extraction.py
-        └─load.py
-        └─schedule.py
-        └─schema.py
-        └─transformation.py
 ```
 
 
@@ -138,6 +131,21 @@ Now it's time to create a pipeline for your tasks. Use the command below to add 
 $ boomba createpipe <pipe_name>
 ```
 If you create a project with the name 'my_pipe,' a new directory called 'my_pipe' will appear in the project root directory. Inside it, the following files will be included by default. The usage of these files will be explained below.
+
+```bash
+project:.
+├─config
+│  └─settings.py
+├─data
+├─log
+└─pipeline
+    └─first_pipe
+        └─extraction.py
+        └─load.py
+        └─schedule.py
+        └─schema.py
+        └─transformation.py
+```
 
 [PIPELINE_DIRECTORY]
 - extraction.py

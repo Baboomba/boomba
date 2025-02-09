@@ -402,7 +402,10 @@ Refer to the following five tables for the necessary information.
     - scheduled_at: Task scheduled time
 
 Refer to the ERD of the metadata tables below
-![Untitled](https://github.com/user-attachments/assets/00ceb495-c4b7-4122-a3c5-9eca34dd03c5)
+
+<div>
+  <img src="https://github.com/user-attachments/assets/00ceb495-c4b7-4122-a3c5-9eca34dd03c5" width="500" />
+</div>
 
 
 #### License:

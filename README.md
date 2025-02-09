@@ -28,7 +28,19 @@ $ ls
 ... config  data  log
 ```
 The directory structure will be as follows:
-![image](https://github.com/user-attachments/assets/c1ac5a82-264f-4071-8e25-6024675c50f7)
+```bash
+project:.
+├─config
+├─data
+├─log
+└─pipeline
+    └─first_pipe
+        └─extraction.py
+        └─load.py
+        └─schedule.py
+        └─schema.py
+        └─transformation.py
+```
 
 
 #### 2. __Configuration__

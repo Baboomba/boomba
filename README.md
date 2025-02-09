@@ -18,7 +18,9 @@ Boomba is a lightweight and efficient ETL pipeline framework designed to simplif
 
 Below is the general architecture of the Boomba framework.
 
-![스크린샷 2025-02-09 125029](https://github.com/user-attachments/assets/1d1b0eca-3c37-4e9a-b814-5c3b176e80a5)
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/1d1b0eca-3c37-4e9a-b814-5c3b176e80a5" width="700" />
+</div>
 
 
 ### __Beta Version__:

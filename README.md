@@ -31,6 +31,7 @@ The directory structure will be as follows:
 ```bash
 project:.
 ├─config
+|   └─settings.py
 ├─data
 ├─log
 └─pipeline

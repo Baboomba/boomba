@@ -27,6 +27,9 @@ $ boomba startproject
 $ ls
 ... config  data  log
 ```
+The directory structure will be as follows:
+![image](https://github.com/user-attachments/assets/c1ac5a82-264f-4071-8e25-6024675c50f7)
+
 
 #### 2. __Configuration__
 Now, open settings.py in the config directory. You need to configure the basic settings for the project here. There aren't many settings to configure, so take your time reading through the items below and adjust them according to your situation.

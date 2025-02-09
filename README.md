@@ -3,11 +3,23 @@
 Boomba is a lightweight and efficient ETL pipeline framework designed to simplify and automate the process of data extraction, transformation, and loading (ETL). With Boomba, you can easily create and manage data pipelines while ensuring high performance and flexibility.
 
 ### __Features__:
-- Schedule and automate ETL jobs
-- Support for data extraction, transformation, and loading tasks
-- Build efficient data pipelines with ease
-- Support for various extraction methods (database, API)
-- Support for various storage methods (local, database, cloud)
+[Lightweight]
+- A lightweight framework with approximately 3,000 lines of code
+- Minimal external dependencies, primarily built with standard libraries
+
+[User-Friendly]
+- Simple task definition through declarative programming style
+- Intuitive, high-level API
+
+[Structured]
+- A structured architecture from schema design to scheduling
+- Systematic design with maintainability and scalability in mind
+- Intuitive management of jobs, schedules, directories, and file paths through metadata modeling
+
+Below is the general architecture of the Boomba framework.
+
+![스크린샷 2025-02-09 125029](https://github.com/user-attachments/assets/1d1b0eca-3c37-4e9a-b814-5c3b176e80a5)
+
 
 ### __Beta Version__:
 This is a beta version of Boomba. Please note that some features may be subject to change as I continue to refine and improve the framework.

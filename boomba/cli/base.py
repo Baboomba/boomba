@@ -1,9 +1,9 @@
 from argparse import (
-                ArgumentParser,
-                RawTextHelpFormatter,
-                Namespace,
-                _SubParsersAction
-            )
+    ArgumentParser,
+    RawTextHelpFormatter,
+    Namespace,
+    _SubParsersAction
+)
 
 from boomba.cli.description import ERROR
 

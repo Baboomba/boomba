@@ -1,10 +1,6 @@
-import sys
 from pathlib import Path
 
-sys.path.append(str(Path(__file__).resolve().parent.parent))
-
 import unittest
-from unittest.mock import patch, MagicMock
 
 from tempfile import NamedTemporaryFile
 from boomba.core.config import Config

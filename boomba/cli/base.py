@@ -64,9 +64,10 @@ class BaseCommand:
         return getattr(self._args, self.command, None)
     
     def get_option(self, key: str) -> str:
-        if self._args is None:
+        value = getattr(self._args, key.replace('-', ''), None)
+        if value is None:
             print(ERROR['empty_args'])
-        return getattr(self._args, key.replace('-', ''), None)
+        return value
     
     def help(self):
         self._parser.print_help()

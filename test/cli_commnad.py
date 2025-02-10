@@ -4,13 +4,11 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock
 
-from argparse import ArgumentParser, Namespace
-from io import StringIO
-
-from boomba.cli.command import CommandRegistor, CommandHandler
+from boomba.cli.command import CommandRegistor
 from boomba.cli.description import HELP
+
 
 class TestRegistor(unittest.TestCase):
 

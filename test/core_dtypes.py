@@ -6,7 +6,7 @@ sys.path.append(str(Path(__file__).resolve().parent.parent))
 from datetime import datetime
 import unittest
 import polars as pl
-from core.builder.dtypes import Dtype
+from boomba.core.dtypes import Dtype
 
 class TestDtypes(unittest.TestCase):
 
@@ -167,7 +167,3 @@ class TestDtypes(unittest.TestCase):
         self.assertEqual(data["field2"].dtype, pl.Boolean)
         '''
         ...
-   
-
-if __name__ == '__main__':
-    unittest.main()

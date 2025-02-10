@@ -1,8 +1,8 @@
 from pathlib import Path
 from typing import Dict, Any
 
-PYTHON_VERSION = '3.12.3'
-BOOMBA_VERSION = '0.1.0b3'
+PYTHON_VERSION = '3.13.2'
+BOOMBA_VERSION = '0.1.0b5'
 
 # The pakage directory
 BOOMBA_DIR: Path = Path(__file__).resolve().parent.parent

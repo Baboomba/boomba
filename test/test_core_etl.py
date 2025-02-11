@@ -9,7 +9,11 @@ from boomba.core.dtypes import Dtype
 from boomba.core.etl import (
     Extractor,
     DBExtractor,
-    APIExtractor
+    APIExtractor,
+    Transformer,
+    Loader,
+    DBLoader,
+    FSLoader
 )
 from boomba.core.schema import Schema
 
@@ -90,3 +94,116 @@ def test_apiextractor():
     assert len(test.data) > 0
     assert test.data.equals(pl.from_dict(expect))
 
+
+def test_transformer(prepare_test_config):
+    db = DBManager('test', prepare_test_config)
+    data = pl.DataFrame({
+        "name": ["Alice", "Bob", "Paul"],
+        "age": [20.0, 30.0, 40.0]
+    })
+    db.insert(data, 'users')
+    data = pl.DataFrame({
+        "name": ["Alice", "Bob", "Paul"],
+        "height": [160, 170, 180]
+    })
+    db.insert(data, 'health')
+
+    class Users(DBExtractor):
+        db_name = 'test'
+        query = 'SELECT * FROM users'
+        _db = db
+    
+    class Health(DBExtractor):
+        db_name = 'test'
+        query = 'SELECT * FROM health'
+        _db = db
+    
+    class TestTransformer(Transformer):
+        extractor = [Users, Health]
+
+        def process_data(self):
+            users = self.data['Users']
+            health = self.data['Health']
+            return users.join(health, on='name')
+    
+    transformer = TestTransformer()
+    expect = pl.DataFrame({
+        "name": ["Alice", "Bob", "Paul"],
+        "age": [20.0, 30.0, 40.0],
+        "height": [160, 170, 180]
+    })
+    assert transformer.result.equals(expect)
+
+
+def test_loader():
+    path = Path.cwd() / 'pipeline' / 'test'
+    path.mkdir(parents=True, exist_ok=True)
+    
+    class TestLoader(Loader):
+        transformer = Transformer
+        _module_setter_for_test = 'pipeline.test'
+        
+        def _additional_init_(self):
+            pass
+        
+        def _set_path(self):
+            pass
+        
+        def _load_data(self):
+            pass
+    
+    loader = TestLoader()
+    assert loader.pipe_name == 'test'
+    assert loader.collection == 'test_loader'
+    assert loader.location == 'test/test_loader'
+
+
+def test_dbloader():
+    db = DBManager('test', prepare_test_config)
+    data = pl.DataFrame({
+        "name": ["Alice", "Bob", "Paul"],
+        "age": [20.0, 30.0, 40.0]
+    })
+    db.insert(data, 'users')
+    data = pl.DataFrame({
+        "name": ["Alice", "Bob", "Paul"],
+        "height": [160, 170, 180]
+    })
+    db.insert(data, 'health')
+
+    class Users(DBExtractor):
+        db_name = 'test'
+        query = 'SELECT * FROM users'
+        _db = db
+    
+    class Health(DBExtractor):
+        db_name = 'test'
+        query = 'SELECT * FROM health'
+        _db = db
+    
+    class TestTransformer(Transformer):
+        extractor = [Users, Health]
+
+        def process_data(self):
+            users = self.data['Users']
+            health = self.data['Health']
+            return users.join(health, on='name')
+    
+    class TestLoader(DBLoader):
+        db_name = 'test'
+        table_name = 'load_result'
+        transformer = TestTransformer
+    
+    TestLoader(prepare_test_config)
+    data = db.select('SELECT * FROM load_result')
+    expect = pl.DataFrame({
+        "name": ["Alice", "Bob", "Paul"],
+        "age": [20.0, 30.0, 40.0],
+        "height": [160, 170, 180]
+    })
+    assert data.equals(expect)
+
+
+@pytest.mark.skip(reason="Not yet inplemented.")
+def test_fsloader():
+    pass

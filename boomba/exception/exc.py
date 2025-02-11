@@ -71,3 +71,6 @@ class LogDirectoryError(BaseExc):
 
 class DBConnectionError(BaseExc):
     default_msg = "Invaild database configuration. "
+
+class AttrAccessError(BaseExc):
+    default_msg = "Attempted to access an invalid attribute: "

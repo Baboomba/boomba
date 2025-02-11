@@ -68,7 +68,6 @@ class Extractor(ABC):
     def _to_dataframe(self, df: pl.DataFrame) -> pl.DataFrame:
         if hasattr(self, 'schema'):
             return pl.DataFrame(df, schema=self.schema().schema)
-        
         return pl.DataFrame(df)
     
 
@@ -159,7 +158,7 @@ class APIExtractor(Extractor):
         if not hasattr(self, url):
             raise UndefinedAttributeError(self, url)
         
-        if not hasattr(self, method):
+        if hasattr(self, method):
             self.method = self.method.upper()
         else:
             raise UndefinedAttributeError(self, method)
@@ -202,9 +201,9 @@ class APIExtractor(Extractor):
 
     def _extract_data(self) -> pl.DataFrame:
         if self.method == 'GET':
-            self.data = self._get()
+            return self._get()
         else:
-            self.data = self._post()
+            return self._post()
     
 
 class Transformer:

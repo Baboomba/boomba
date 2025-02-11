@@ -320,7 +320,7 @@ class Loader(ABC):
     pipe_name: str
     location: Path
     path: str
-    _module: str # Test use only, no other usage allowed
+    _module_setter_for_test: str # Test use only, no other usage allowed
     
     def __init__(self, conf: Config=Conf) -> None:
         self._check_attr()
@@ -335,8 +335,7 @@ class Loader(ABC):
     def __repr__(self) -> str:
         return (
             f"Loader(pipe_name={self.pipe_name}, "
-            f"collection={self.collection}, "
-            f"file_name={self.file_name})"
+            f"collection={self.collection})"
         )
     
     @property
@@ -390,15 +389,15 @@ class Loader(ABC):
         -----
             RuntimeError: If the Location class is used outside of a valid pipeline.
         """
-        if not hasattr(self, '_module'):
-            self._module = self.__module__
-        
-        token = self._module.split('.')
+        if not hasattr(self, '_module_setter_for_test'):
+            token = self.__module__.split('.')
+        else:
+            token = self._module_setter_for_test.split('.')
         
         if token[0] != PIPELINE_DIR.name:
             raise ModuleLocationError(
                 self,
-                additional_msg=self._module
+                additional_msg=self.__module__
             )
         
         if len(token) == 1:

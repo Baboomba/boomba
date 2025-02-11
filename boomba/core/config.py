@@ -23,7 +23,7 @@ class Config:
             return self._temp_config()
         
         with open(str(self.conf_path)) as f:
-                conf = f.read()
+            conf = f.read()
         
         vars = {}
         exec(conf, {}, vars)

@@ -53,8 +53,12 @@ class Extractor(ABC):
     
     def __init__(self) -> None:
         self._check_attr()
+        self._additional_init()
         self.data = self._extract_data()
     
+    def _additional_init(self):
+        pass
+
     @abstractmethod
     def _check_attr(self) -> None: ...
     
@@ -89,6 +93,7 @@ class DBExtractor(Extractor):
     db_name: str
     query: str
     query_params: str = None
+    _db: DBManager
     
     def _check_attr(self) -> None:
         db_name = 'db_name'
@@ -107,12 +112,18 @@ class DBExtractor(Extractor):
                     ("Invalid type for 'schema'. "
                     "Expected subclass of Schema.")
                 )
+        
+        if not isinstance(self._db, DBManager):
+            raise TypeError(
+                "Only DBManager type can set '_db'. "
+                f"class : {self.__class__.__name__}"
+            )
     
-    def _create_dbmanager(self, db: DBManager=None) -> None:
-        self._db = db or DBManager(self.db_name)
+    def _additional_init(self) -> None:
+        if not hasattr(self, '_db'):
+            self._db = DBManager(self.db_name)
      
     def _extract_data(self) -> pl.DataFrame:
-        self._create_dbmanager()
         try:
             result = self._db.select(self.query, self.query_params, False)
             return self._to_dataframe(result)

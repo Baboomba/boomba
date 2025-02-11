@@ -1,6 +1,6 @@
 
 
-class BaseException(Exception):
+class BaseExc(Exception):
     default_msg: str
     
     def __init__(
@@ -20,33 +20,33 @@ class BaseException(Exception):
         super().__init__(msg)
 
 
-class NonEmptyDirectoryError(BaseException):
+class NonEmptyDirectoryError(BaseExc):
     """Raised when the target directory for project initialization is not empty."""
     default_msg = 'Root directory must be empty'
 
 
-class ConfigurationError(BaseException):
+class ConfigurationError(BaseExc):
     default_msg = 'The configuration is missing. '
 
-class DatabaseConfigurationError(BaseException):
+class DatabaseConfigurationError(BaseExc):
     default_msg = (
         "Base database failed to connect. "
         "Please check your database or configuration."
     )
     
-class EmptyArgumentError(BaseException):
+class EmptyArgumentError(BaseExc):
     default_msg = (
         "No arguments were provided. Please refer to the help.\n"
         " $ boomba --help"
     )
     
-class LogConfigurationError(BaseException):
+class LogConfigurationError(BaseExc):
     default_msg = "The log configuration has not been set."
     
-class DirectoryNotFoundError(BaseException):
+class DirectoryNotFoundError(BaseExc):
     default_msg = "There is no such directory."
     
-class ModuleLocationError(BaseException):
+class ModuleLocationError(BaseExc):
     default_msg = (
         "The Location class can only be used "
         "within the apps of the pipeline. "
@@ -54,20 +54,20 @@ class ModuleLocationError(BaseException):
         "module Location : "
     )
 
-class PipeNotFoundError(BaseException):
+class PipeNotFoundError(BaseExc):
     default_msg = (
         "The Load class requires an app "
         "to be registered in the pipeline before use."
     )
     
-class UndefinedMethodError(BaseException):
+class UndefinedMethodError(BaseExc):
     default_msg = "Method not implemented. method="
     
-class UndefinedAttributeError(BaseException):
+class UndefinedAttributeError(BaseExc):
     default_msg = "Missing required attribute: "
     
-class LogDirectoryError(BaseException):
+class LogDirectoryError(BaseExc):
     default_msg = "Not allowed to use 'system'"
 
-class DBConnectionError(BaseException):
+class DBConnectionError(BaseExc):
     default_msg = "Invaild database configuration. "

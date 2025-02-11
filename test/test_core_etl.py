@@ -50,8 +50,12 @@ def prepare_test_config():
 DATABASE = {
     'test': {
         'drivername': 'sqlite',
-        'database': ':memory:'
-    },
+        'username': None,
+        'password': None,
+        'host': None,
+        'port': None,
+        'database': ':memory:'        
+    }
 }
 '''
     with NamedTemporaryFile(mode='w+t', delete=False) as f:
@@ -155,10 +159,10 @@ def test_loader():
     loader = TestLoader()
     assert loader.pipe_name == 'test'
     assert loader.collection == 'test_loader'
-    assert loader.location == 'test/test_loader'
+    assert loader.location == Path('test/test_loader')
 
 
-def test_dbloader():
+def test_dbloader(prepare_test_config):
     db = DBManager('test', prepare_test_config)
     data = pl.DataFrame({
         "name": ["Alice", "Bob", "Paul"],
@@ -193,8 +197,10 @@ def test_dbloader():
         db_name = 'test'
         table_name = 'load_result'
         transformer = TestTransformer
+        _db = db
+        _module_setter_for_test = 'pipeline.test'
     
-    TestLoader(prepare_test_config)
+    TestLoader()
     data = db.select('SELECT * FROM load_result')
     expect = pl.DataFrame({
         "name": ["Alice", "Bob", "Paul"],

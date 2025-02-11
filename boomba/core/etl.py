@@ -33,7 +33,8 @@ from boomba.exception.exc import (
     ModuleLocationError,
     PipeNotFoundError,
     UndefinedAttributeError,
-    ConfigurationError
+    ConfigurationError,
+    AttrAccessError
 )
 from boomba.util.parse import to_snake_case, to_date_format
 
@@ -112,11 +113,12 @@ class DBExtractor(Extractor):
                     "Expected subclass of Schema.")
                 )
         
-        if not isinstance(self._db, DBManager):
-            raise TypeError(
-                "Only DBManager type can set '_db'. "
-                f"class : {self.__class__.__name__}"
-            )
+        if hasattr(self, '_db'):
+            if not isinstance(self._db, DBManager):
+                raise TypeError(
+                    "Only DBManager type can set '_db'. "
+                    f"class : {self.__class__.__name__}"
+                )
     
     def _additional_init(self) -> None:
         if not hasattr(self, '_db'):
@@ -299,13 +301,17 @@ class Transformer:
 
 class Loader(ABC):
     """
-    A class responsible for loading and processing data within a pipeline.
+    An Abstract class responsible for loading and processing data within a pipeline.
     
     Attributes
     -----
-    - section (str): The configuration section to be used(required).
-    - schema (Schema): The schema for loading the data(optional).
-    - transformer (Transformer): The subclass of transformer class used to process the data(required).
+    - schema (Schema, optional): The schema for loading the data.
+    - transformer (Transformer, required): The subclass of the transformer class used to process the data.
+    - collection (str, optional): Data separator (concept corresponding to a database table).
+    - file_name (str, optional): File name.
+    - pipe_name (str, read only): Pipe name.
+    - location (Path, read only): The directory where the data will be stored, determined by 'pipe_name / collection'.
+    - path (str, read only): The data storage path, determined by 'location / file_name'.
     """
     schema: Schema
     transformer: Transformer
@@ -314,15 +320,16 @@ class Loader(ABC):
     pipe_name: str
     location: Path
     path: str
+    _module: str # Test use only, no other usage allowed
     
     def __init__(self, conf: Config=Conf) -> None:
         self._check_attr()
         self._conf = conf
         self._additional_init_()
-        self.pipe_name = self._get_pipe_name()
-        self.collection = self._set_collection()
-        self.location = self._set_location()
-        self.path = self._set_path()
+        self.__pipe_name = self._get_pipe_name()
+        self.__collection = self._set_collection()
+        self.__location = self._set_location()
+        self.__path = self._set_path()
         self._load_data()
         
     def __repr__(self) -> str:
@@ -332,6 +339,22 @@ class Loader(ABC):
             f"file_name={self.file_name})"
         )
     
+    @property
+    def pipe_name(self) -> str:
+        return self.__pipe_name
+    
+    @property
+    def collection(self) -> str:
+        return self.__collection
+    
+    @property
+    def location(self) -> Path:
+        return self.__location
+    
+    @property
+    def path(self) -> str:
+        return self.__path
+
     @abstractmethod
     def _additional_init_(self) -> None: ...
     
@@ -360,18 +383,23 @@ class Loader(ABC):
                     ("Invalid type for 'collection'. "
                     "Expected instance of 'str'.")
                 )
-    
+        
     def _get_pipe_name(self) -> str:
         """
         Raises
         -----
             RuntimeError: If the Location class is used outside of a valid pipeline.
         """
-        module = self.__module__ 
-        token = module.split('.')
+        if not hasattr(self, '_module'):
+            self._module = self.__module__
+        
+        token = self._module.split('.')
         
         if token[0] != PIPELINE_DIR.name:
-            raise ModuleLocationError(self, additional_msg=module)
+            raise ModuleLocationError(
+                self,
+                additional_msg=self._module
+            )
         
         if len(token) == 1:
             raise PipeNotFoundError(self)
@@ -390,7 +418,7 @@ class Loader(ABC):
 class FSType(Enum):
     local = 'local'
     s3 = 's3'
-        
+
 
 class FSLoader(Loader):
     fs_name: str

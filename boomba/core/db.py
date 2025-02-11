@@ -27,9 +27,9 @@ class Connector:
         section (str): The name of the configuration section to load.
     """
 
-    def __init__(self, db_name: str, conf: Config=Conf, **kwagrs) -> None:
+    def __init__(self, db_name: str, conf: Config=None, **kwagrs) -> None:
         self._db_name = db_name
-        self._conf = conf
+        self._conf = conf or Conf
         self.engine = self._create_engine(**kwagrs)
     
     def _get_conn_str(self) -> str:
@@ -69,8 +69,8 @@ class DBManager(Connector):
     - engine (Engine): The SQLAlchemy engine for database connection.
     """
 
-    def __init__(self, db_name: str):
-        super().__init__(db_name)
+    def __init__(self, db_name: str, conf: Config=None):
+        super().__init__(db_name, conf)
         
     def execute_query(self, query: str, params: dict = None) -> None:
         """

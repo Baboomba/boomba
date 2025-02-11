@@ -536,6 +536,7 @@ class FSLoader(Loader):
 class DBLoader(Loader):
     table_name: str
     db_name: str
+    _db: DBManager
     
     def _additional_init_(self) -> None:
         if not hasattr(self, 'table_name'):
@@ -548,7 +549,9 @@ class DBLoader(Loader):
         return self.table_name
     
     def _load_data(self) -> None:
-        db = DBManager(self.db_name)
+        if not hasattr(self, '_db'):
+            self._db = DBManager(self.db_name)
+
         transformer: Transformer = self.transformer()
         data = transformer.result
-        db.insert(data, self.table_name)
+        self._db.insert(data, self.table_name)
